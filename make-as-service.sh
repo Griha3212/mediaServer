@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
+
 MEDIA_SERVER_CONFIG_FILE=/etc/init/startMediaServer.conf
 MEDIA_SERVER_SERVICE_FILE=/lib/systemd/system/startMediaServer.service
 
-MEDIA_SERVER_CONFIG_FILE=/etc/init/startMediaServer.conf
 
 echo "Make $MEDIA_SERVER_CONFIG_FILE"
 
@@ -17,7 +17,7 @@ cat <<EOT >> $MEDIA_SERVER_CONFIG_FILE
 description "startMediaServer"
 start on stopped rc RUNLEVEL=[2345]
 respawn
-exec sh /home/ubuntu/startMediaServer/startMediaServer.sh
+exec sh /home/startMediaServer/startMediaServer.sh
 EOT
 
 
@@ -38,15 +38,15 @@ WantedBy=multi-user.target
 [Service]
 AmbientCapabilities=CAP_SYS_RAWIO
 User=nobody
-WorkingDirectory=/home/ubuntu/startMediaServer
-ExecStart=/home/ubuntu/startMediaServer/startMediaServer.sh
+WorkingDirectory=/home/startMediaServer
+ExecStart=/home/startMediaServer/startMediaServer.sh
 TimeoutSec=600
 Restart=on-failure
 RuntimeDirectoryMode=755
 SyslogIdentifier=startMediaServer
 EOT
 
-cd /home/ubuntu/startMediaServer/
+cd /home/startMediaServer/
 chmod +x startMediaServer.sh
 
 echo "Start service"
