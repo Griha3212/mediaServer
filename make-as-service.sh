@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 
-MEDIA_SERVER_CONFIG_FILE=/etc/init/startMediaServer.conf
-MEDIA_SERVER_SERVICE_FILE=/lib/systemd/system/startMediaServer.service
+MEDIA_SERVER_CONFIG_FILE=/etc/init/mediaServer.conf
+MEDIA_SERVER_SERVICE_FILE=/lib/systemd/system/mediaServer.service
 
+mkdir -p /etc/init/
 
 echo "Make $MEDIA_SERVER_CONFIG_FILE"
 
@@ -14,10 +15,10 @@ if [ -f "$MEDIA_SERVER_CONFIG_FILE" ]; then
 fi
 
 cat <<EOT >> $MEDIA_SERVER_CONFIG_FILE
-description "startMediaServer"
+description "mediaServer"
 start on stopped rc RUNLEVEL=[2345]
 respawn
-exec sh /home/startMediaServer/startMediaServer.sh
+exec sh /home/mediaServer/mediaServer.sh
 EOT
 
 
@@ -30,7 +31,7 @@ fi
 
 cat <<EOT >> $MEDIA_SERVER_SERVICE_FILE
 [Unit]
-Description=Flask Proxy Server
+Description=Media Server
 
 [Install]
 WantedBy=multi-user.target
@@ -38,18 +39,19 @@ WantedBy=multi-user.target
 [Service]
 AmbientCapabilities=CAP_SYS_RAWIO
 User=nobody
-WorkingDirectory=/home/startMediaServer
-ExecStart=/home/startMediaServer/startMediaServer.sh
+WorkingDirectory=/home/mediaServer/mediaServer
+ExecStart=/home/mediaServer/mediaServer.sh
 TimeoutSec=600
 Restart=on-failure
 RuntimeDirectoryMode=755
-SyslogIdentifier=startMediaServer
+SyslogIdentifier=mediaServer
 EOT
 
-cd /home/startMediaServer/
-chmod +x startMediaServer.sh
+cd /home/mediaServer/
 
-echo "Start service"
+chmod +x mediaServer.sh
 
-sudo service startMediaServer start
-sudo service startMediaServer status
+echo "Start service mediaServer"
+
+sudo service mediaServer start
+sudo service mediaServer status
