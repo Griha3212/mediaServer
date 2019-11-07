@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-FLASK_PROXY_CONF_FILE=/etc/init/startMediaServer.conf
-FLASK_PROXY_SERVICE_FILE=/lib/systemd/system/startMediaServer.service
+MEDIA_SERVER_CONFIG_FILE=/etc/init/startMediaServer.conf
+MEDIA_SERVER_SERVICE_FILE=/lib/systemd/system/startMediaServer.service
 
-FLASK_PROXY_CONF_FILE=/etc/init/startMediaServer.conf
+MEDIA_SERVER_CONFIG_FILE=/etc/init/startMediaServer.conf
 
-echo "Make $FLASK_PROXY_CONF_FILE"
+echo "Make $MEDIA_SERVER_CONFIG_FILE"
 
 
-if [ -f "$FLASK_PROXY_CONF_FILE" ]; then
-    echo "Delete old $FLASK_PROXY_CONF_FILE file"
-    rm $FLASK_PROXY_CONF_FILE
+if [ -f "$MEDIA_SERVER_CONFIG_FILE" ]; then
+    echo "Delete old $MEDIA_SERVER_CONFIG_FILE file"
+    rm $MEDIA_SERVER_CONFIG_FILE
 fi
 
-cat <<EOT >> $FLASK_PROXY_CONF_FILE
+cat <<EOT >> $MEDIA_SERVER_CONFIG_FILE
 description "startMediaServer"
 start on stopped rc RUNLEVEL=[2345]
 respawn
@@ -21,14 +21,14 @@ exec sh /home/ubuntu/startMediaServer/startMediaServer.sh
 EOT
 
 
-echo "Make $FLASK_PROXY_SERVICE_FILE"
+echo "Make $MEDIA_SERVER_SERVICE_FILE"
 
-if [ -f "$FLASK_PROXY_SERVICE_FILE" ]; then
-    echo "Delete old $FLASK_PROXY_SERVICE_FILE file"
-    rm $FLASK_PROXY_SERVICE_FILE
+if [ -f "$MEDIA_SERVER_SERVICE_FILE" ]; then
+    echo "Delete old $MEDIA_SERVER_SERVICE_FILE file"
+    rm $MEDIA_SERVER_SERVICE_FILE
 fi
 
-cat <<EOT >> $FLASK_PROXY_SERVICE_FILE
+cat <<EOT >> $MEDIA_SERVER_SERVICE_FILE
 [Unit]
 Description=Flask Proxy Server
 
